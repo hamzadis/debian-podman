@@ -1,0 +1,83 @@
+# Maintainer: Adis Hamzić <adis at hamzadis dot com>
+
+pkgbase=podman
+pkgname=podman5
+pkgver='5.2.5'
+pkgrel='1'
+pkgdesc="A tool for managing OCI containers and pods."
+arch=("amd64")
+url="https://podman.io/"
+license=('Apache')
+provides=('podman')
+conflicts=("${pkgbase}" "${pkgbase}-git" "${pkgbase}-bin")
+
+postinst="podman.install"
+postrm="podman.remove"
+
+makedepends=(
+  'golang-go>=1.21' # bookworm-backports
+  'git'
+  'libc6-dev'
+  'libapparmor-dev'
+  'libassuan-dev'
+  'libbtrfs-dev'
+  'libdevmapper-dev'
+  'libglib2.0-dev'
+  'libsqlite3-dev'
+  'libgpgme-dev'
+  'libgpg-error-dev'
+  'libprotobuf-dev'
+  'libprotobuf-c-dev'
+  'libseccomp-dev'
+  'libselinux1-dev'
+  'libsubid-dev'
+  'libsystemd-dev'
+  'go-md2man'
+)
+depends=(
+  'golang-github-containers-common'
+  'containers-storage'
+  'slirp4netns'
+  'conmon>=2.1.5'
+  'crun1|runc'
+  'libc6'
+  'libgpgme11'
+  'libseccomp2'
+  'libsqlite3-0'
+  'libsubid4'
+  'netavark'
+  'init-system-helpers'
+  'systemd'
+  'iptables'
+  'btrfs-progs'
+  'uidmap'
+  'bash-completion'
+)
+
+source=(
+  "git+https://github.com/containers/podman.git#tag=v${pkgver}"
+  "libpod.conf"
+)
+b2sums=('SKIP' 'SKIP')
+
+build() {
+  cd "${pkgbase}"
+  make BUILDTAGS="selinux seccomp systemd apparmor libsubid cni" PREFIX="/usr"
+}
+
+package() {
+  # install config dirs
+  install -dm755 "${pkgdir}/etc/containers/systemd"
+  install -dm755 "${pkgdir}/etc/containers/systemd/users"
+
+  # install config
+  install -Dm644 "libpod.conf" "${pkgdir}/etc/containers/libpod.conf"
+
+  # install cni config
+  install -Dm644 "${pkgbase}/cni/87-podman-bridge.conflist" "${pkgdir}/etc/cni/net.d/87-podman-bridge.conflist"
+
+  # install binaries
+  cd "${pkgbase}"
+  make install install.completions DESTDIR="${pkgdir}" PREFIX="/usr"
+}
+

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+deb-systemd-helper purge \
+  'podman-auto-update.service' \
+  'podman-auto-update.timer' \
+  'podman-restart.service' \
+  'podman.service' \
+  'podman.socket' \
+  >/dev/null || true
+

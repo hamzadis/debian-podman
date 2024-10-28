@@ -1,0 +1,10 @@
+Origin: debian-podman
+Label: debian-podman
+Architectures: amd64
+Suite: debian-podman
+Codename: debian-podman
+Components: main
+Date: Mon, 28 Oct 2024 16:46:21 +0000
+SHA256:
+ a7f5dfa877ca46bfe863b82185c5d2a4700bdd1362511d6a3d5fbb98b75561d4 1334 main/binary-amd64/Packages
+ 7b946477f24791d811a0ab984a8fa9192c7db1f3fe7df17ac65bac66ad486c65 746 main/binary-amd64/Packages.gz

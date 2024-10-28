@@ -1,0 +1,28 @@
+#!/bin/sh
+
+service_up () {
+  local service="$1"
+  deb-systemd-helper unmask "$service" >/dev/null || true
+
+  # was-enabled defaults to true, so new installations run enable.
+  if deb-systemd-helper --quiet was-enabled "$service"; then
+    # Enables the unit on first installation, creates new
+    # symlinks on upgrades if the unit file has changed.
+    deb-systemd-helper enable "$service" >/dev/null || true
+  else
+    # Update the statefile to add new symlinks (if any), which need to be
+    # cleaned up on purge. Also remove old symlinks.
+    deb-systemd-helper update-state  >/dev/null || true
+  fi
+}
+
+echo Setting up tmpfiles
+systemd-tmpfiles --create podman.conf >/dev/null || true
+
+echo Setting up services
+service_up 'podman-auto-update.service'
+service_up 'podman-auto-update.timer'
+service_up 'podman-restart.service'
+service_up 'podman.service'
+service_up 'podman.socket'
+

@@ -1,0 +1,32 @@
+Package: crun1
+Version: 1.18-1
+Architecture: amd64
+Maintainer: Adis Hamzić <adis at hamzadis dot com>
+Depends: libc6, libcap2, libseccomp2, libsystemd0, libyajl2
+Conflicts: crun, crun-git, crun-bin
+Provides: crun
+Filename: pool/main/crun1_1.18-1_amd64.deb
+Size: 723238
+MD5sum: c2bb2026c8d62b2dc86f03fb2ef8feaa
+SHA1: 9d2a88f2dc79dcb43c5aeafd9b3f078ad885a6c0
+SHA256: 308df115737bd8b2c209217a821de229f1b6b7b190e7aebe9cfa405358fd7ba0
+Homepage: https://github.com/containers/crun
+Description: A fast and lightweight fully featured OCI runtime and C library for running containers
+License: GPL2
+
+Package: podman5
+Version: 5.2.5-1
+Architecture: amd64
+Maintainer: Adis Hamzić <adis at hamzadis dot com>
+Depends: golang-github-containers-common, containers-storage, slirp4netns, conmon (>= 2.1.5), crun1 | runc, libc6, libgpgme11, libseccomp2, libsqlite3-0, libsubid4, netavark, init-system-helpers, systemd, iptables, btrfs-progs, uidmap, bash-completion
+Conflicts: podman, podman-git, podman-bin
+Provides: podman
+Filename: pool/main/podman5_5.2.5-1_amd64.deb
+Size: 31295520
+MD5sum: ad86a1ca107544534d4ad2fbd679abe2
+SHA1: 11462beb7dcfaac27b9cd904d35c9f85fde4d9b2
+SHA256: c5cae5ae37863e211714bea1810a8b88a5ed0933db131ea3c4b2cab2228b887f
+Homepage: https://podman.io/
+Description: A tool for managing OCI containers and pods.
+License: Apache
+
